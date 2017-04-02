@@ -42,4 +42,6 @@ function CreateMainWorldView(parent, mapGroup, mapGroupRight)
 	view:DisableHitTest()
 
 	import('/lua/ui/game/multifunction.lua').RefreshMapDialog()
+	
+	UIP.WorldViewPrimaryIsRight = true
 end

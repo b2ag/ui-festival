@@ -5,6 +5,8 @@ local GameMain = import('/lua/ui/game/gamemain.lua')
 
 local originalMainMenuLeft
 
+WorldViewPrimaryIsRight = false
+
 -- log function with prefix
 _G.UipLog = function(a)
 	if GetSettings().global.logEnabled then 
@@ -24,7 +26,7 @@ end
 function FinishCreateUI(isReplay)
 	ArrangeSplit()
 	ArrangeUI()
-	WaitSeconds(1)
+	WaitSeconds(1.2)
 	ArrangeZoom()
 end
 
@@ -73,7 +75,7 @@ function ArrangeUI()
 	-- TODO FIXME remove this left is right hack, if all mods use "primary" instead of left
 	local viewLeft
 	local viewRight
-	if GetSetting("primaryRight") then 
+	if WorldViewPrimaryIsRight then 
 		viewLeft = import('/lua/ui/game/worldview.lua').viewRight
 		viewRight = import('/lua/ui/game/worldview.lua').viewLeft
 	else
@@ -95,55 +97,72 @@ function ArrangeUI()
 	end
 
 	local borders = import('/lua/ui/game/borders.lua')
+	local MagicOffset = 14
 
 	if GetSetting("statusControlPos") == 1 then 
 		import('/lua/ui/game/economy.lua').savedParent = viewLeft
+		import('/lua/ui/game/economy.lua').GUI.bg.Left:Set( MagicOffset )
 		import('/lua/ui/game/economy.lua').GUI.collapseArrow.Left:Set( 0 )
 	elseif GetSetting("statusControlPos") == 2 then 
 		import('/lua/ui/game/economy.lua').savedParent = viewRight
+		import('/lua/ui/game/economy.lua').GUI.bg.Left:Set( function() return  viewRight.Left() + MagicOffset end )
 		import('/lua/ui/game/economy.lua').GUI.collapseArrow.Left:Set( viewRight.Left )
 	end
 
 	if GetSetting("controlClusterGroupPos") == 1 then 
+		import('/lua/ui/game/unitviewDetail.lua').View:SetParent( viewLeft )
+		import('/lua/ui/game/unitviewDetail.lua').SetLayout()
+		import('/lua/ui/game/multifunction.lua').savedParent = viewLeft
 		borders.controls.controlClusterGroup.Left:Set( 0 )
 		borders.controls.controlClusterGroup.Right:Set( viewLeft.Right )
+		import('/lua/ui/game/multifunction.lua').controls.bg.Left:Set( MagicOffset )
 		import('/lua/ui/game/multifunction.lua').controls.collapseArrow.Left:Set( 0 )
 	elseif GetSetting("controlClusterGroupPos") == 2 then
+		import('/lua/ui/game/unitviewDetail.lua').View:SetParent( GameFrame(0) )
+		import('/lua/ui/game/unitviewDetail.lua').SetLayout()
+		import('/lua/ui/game/multifunction.lua').savedParent = GameFrame(0)
 		borders.controls.controlClusterGroup.Left:Set( 0 )
 		borders.controls.controlClusterGroup.Right:Set( viewRight.Right )
+		import('/lua/ui/game/multifunction.lua').controls.bg.Left:Set( MagicOffset )
 		import('/lua/ui/game/multifunction.lua').controls.collapseArrow.Left:Set( 0 )
 	elseif GetSetting("controlClusterGroupPos") == 3 then
+		import('/lua/ui/game/unitviewDetail.lua').View:SetParent( viewRight )
+		import('/lua/ui/game/unitviewDetail.lua').SetLayout()
+		import('/lua/ui/game/multifunction.lua').savedParent = viewRight
 		borders.controls.controlClusterGroup.Left:Set( viewRight.Left )
 		borders.controls.controlClusterGroup.Right:Set( viewRight.Right )
+		import('/lua/ui/game/multifunction.lua').controls.bg.Left:Set( function() return viewRight.Left() + MagicOffset end )
 		import('/lua/ui/game/multifunction.lua').controls.collapseArrow.Left:Set( viewRight.Left )
 	end
 
 	if GetSetting("scorePos") == 1 then 
 		import('/lua/ui/game/score.lua').savedParent = viewLeft
+		import('/lua/ui/game/score.lua').controls.bg.Right:Set( function() return viewLeft.Right() - MagicOffset end )
 		import('/lua/ui/game/score.lua').controls.collapseArrow.Right:Set( viewLeft.Right )
 	elseif GetSetting("scorePos") == 2 then
 		import('/lua/ui/game/score.lua').savedParent = viewRight
-		import('/lua/ui/game/score.lua').controls.collapseArrow.Right:Set( 0 )
+		import('/lua/ui/game/score.lua').controls.bg.Right:Set( function() return viewRight.Right() - MagicOffset end )
+		import('/lua/ui/game/score.lua').controls.collapseArrow.Right:Set( viewRight.Right )
 	end
 
 	if GetSetting("avatarsPos") == 1 then 
 		import('/lua/ui/game/avatars.lua').controls.parent = viewLeft
-		import('/lua/ui/game/avatars.lua').controls.avatarGroup.Right:Set( viewLeft.Right )
+		import('/lua/ui/game/avatars.lua').controls.avatarGroup.Right:Set( function() return viewLeft.Right() - MagicOffset end )
 		import('/lua/ui/game/avatars.lua').controls.collapseArrow.Right:Set( viewLeft.Right )
 	elseif GetSetting("avatarsPos") == 2 then
 		import('/lua/ui/game/avatars.lua').controls.parent = viewRight
-		import('/lua/ui/game/avatars.lua').controls.avatarGroup.Right:Set( 0 )
-		import('/lua/ui/game/avatars.lua').controls.collapseArrow.Right:Set( 0 )
+		import('/lua/ui/game/avatars.lua').controls.avatarGroup.Right:Set( function() return viewRight.Right() - MagicOffset end )
+		import('/lua/ui/game/avatars.lua').controls.collapseArrow.Right:Set( viewRight.Right )
 	end
 
 	if GetSetting("controlGroupsPos") == 1 then
 		import('/lua/ui/game/controlgroups.lua').controls.parent = viewLeft
-		import('/lua/ui/game/controlgroups.lua').controls.container.Right:Set( viewLeft.Right )
+		import('/lua/ui/game/controlgroups.lua').controls.container.Right:Set( function() return viewLeft.Right() - MagicOffset end )
 		import('/lua/ui/game/controlgroups.lua').controls.collapseArrow.Right:Set( viewLeft.Right )
 	elseif GetSetting("controlGroupsPos") == 2 then
 		import('/lua/ui/game/controlgroups.lua').controls.parent = viewRight
-		import('/lua/ui/game/controlgroups.lua').controls.container.Right:Set( 0 )
-		import('/lua/ui/game/controlgroups.lua').controls.collapseArrow.Right:Set( 0 )
+		import('/lua/ui/game/controlgroups.lua').controls.container.Right:Set( function() return viewRight.Right() - MagicOffset end )
+		import('/lua/ui/game/controlgroups.lua').controls.collapseArrow.Right:Set( viewRight.Right )
 	end
 end
 
@@ -155,7 +174,7 @@ function ArrangeSplit()
 	-- TODO FIXME remove this left is right hack, if all mods use "primary" instead of left
 	local viewLeft
 	local viewRight
-	if GetSetting("primaryRight") then 
+	if WorldViewPrimaryIsRight then 
 		viewLeft = import('/lua/ui/game/worldview.lua').viewRight
 		viewRight = import('/lua/ui/game/worldview.lua').viewLeft
 	else
