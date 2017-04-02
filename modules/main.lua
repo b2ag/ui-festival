@@ -55,6 +55,15 @@ function Enabled()
 	return GetSettings().global.modEnabled
 end
 
+function GetSplitRatio()
+	local splitRatio = GetSetting("splitRatio")
+	if splitRatio > 80 then 
+		splitRatio = 80
+	elseif splitRatio < 20 then
+		splitRatio = 20
+	end
+	return splitRatio
+end
 
 function ArrangeUI()
 	if not import('/lua/ui/game/worldview.lua').viewRight then
@@ -72,7 +81,7 @@ function ArrangeUI()
 		viewRight = import('/lua/ui/game/worldview.lua').viewRight
 	end
 
-	local splitRatio = GetSetting("splitRatio")
+	local splitRatio = GetSplitRatio()
 
 	local tabs = import('/lua/ui/game/tabs.lua')
 	local mainMenuGroup = tabs.controls.parent
@@ -158,13 +167,7 @@ function ArrangeSplit()
 
 	-- apply split screen ratio
 	if import('/lua/ui/game/worldview.lua').viewRight then
-		local splitRatio = GetSetting("splitRatio")
-		if splitRatio > 80 then 
-			splitRatio = 80
-		elseif splitRatio < 20 then
-			splitRatio = 20
-		end
-
+		local splitRatio = GetSplitRatio()
 		viewLeft.Right:Set( GetFrame(0).Width() * splitRatio / 100 )
 		viewRight.Left:Set( GetFrame(0).Width() * splitRatio / 100 )
 	end
