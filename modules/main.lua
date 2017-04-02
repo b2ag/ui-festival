@@ -97,11 +97,9 @@ function ArrangeUI()
 	local borders = import('/lua/ui/game/borders.lua')
 
 	if GetSetting("statusControlPos") == 1 then 
--- 		borders.controls.statusClusterGroup.Left:Set( 0 )
 		import('/lua/ui/game/economy.lua').savedParent = viewLeft
 		import('/lua/ui/game/economy.lua').GUI.collapseArrow.Left:Set( 0 )
 	elseif GetSetting("statusControlPos") == 2 then 
--- 		borders.controls.statusClusterGroup.Left:Set( viewRight.Left )
 		import('/lua/ui/game/economy.lua').savedParent = viewRight
 		import('/lua/ui/game/economy.lua').GUI.collapseArrow.Left:Set( viewRight.Left )
 	end
