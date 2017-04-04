@@ -45,7 +45,7 @@ end
 
 
 function reloadAndApplyGlobalConfigs()
-	ForkThread(UIP.UpdateUIAfterSave)
+	ForkThread(UIP.OnSettingsUpdate)
 end
 
 

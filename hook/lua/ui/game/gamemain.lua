@@ -1,32 +1,17 @@
--- kate: space-indent off; indent-width 4;
+-- kate: space-indent on; indent-width 2;
 local modpath = '/mods/ui-festival'
 local UIP = import(modpath..'/modules/main.lua')
 
-local oldCreateUI = CreateUI
+local baseCreateUI = CreateUI
 function CreateUI(isReplay)
- 
-	oldCreateUI(isReplay)
-
-	UIP.CreateUI(isReplay)
-
+  baseCreateUI(isReplay)
+  UipLog( 'CreateUI hook called with isReplay=' .. repr(isReplay) )
+  UIP.CreateUI(isReplay)
 end
 
-local baseSetLayout = SetLayout
-function SetLayout(layout)
-    baseSetLayout(layout)
-    ForkThread(UIP.ArrangeUI)
-end
-
-local oldOnFirstUpdate = OnFirstUpdate 
+local baseOnFirstUpdate = OnFirstUpdate 
 function OnFirstUpdate()
-
-	oldOnFirstUpdate()
-
-	if not UIP.Enabled() or not UIP.GetSetting("startSplitScreen") then 
-		return
-	end
-
-	-- start with split screen
-	local Borders = import('/lua/ui/game/borders.lua')
-	Borders.SplitMapGroup(true, true)
+  baseOnFirstUpdate()
+  UipLog( 'OnFirstUpdate hook called' )
+  UIP.OnFirstUpdate()
 end
