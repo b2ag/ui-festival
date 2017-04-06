@@ -96,7 +96,7 @@ function createOptions()
 					LayoutHelpers.AtLeftTopIn(UIUtil.CreateText(uiPanel.main, sv.name, uiPanelSettings.textSize.option, UIUtil.bodyFont), uiPanel.main, curX+130, curY+7)
 					curY = curY + 30
 				else
-					UipLog("Unknown settings type: " .. sv.type)
+					UifLog("Unknown settings type: " .. sv.type)
 				end
 			end)
 		end

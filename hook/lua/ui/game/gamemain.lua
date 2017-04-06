@@ -1,17 +1,23 @@
 -- kate: space-indent on; indent-width 2;
-local modpath = '/mods/ui-festival'
-local UIP = import(modpath..'/modules/main.lua')
+local uif2DD0_modpath = '/mods/ui-festival'
+local UIF = import(uif2DD0_modpath..'/modules/main.lua')
 
-local baseCreateUI = CreateUI
+local uif2DD0_baseCreateUI = CreateUI
 function CreateUI(isReplay)
-  baseCreateUI(isReplay)
-  UipLog( 'CreateUI hook called with isReplay=' .. repr(isReplay) )
-  UIP.CreateUI(isReplay)
+  uif2DD0_baseCreateUI(isReplay)
+  UifLog( 'CreateUI hook called with isReplay=' .. repr(isReplay) )
+  status, result = pcall(ForkThread,UIF.CreateUI)
+  if not status then
+    UifLog( "Error in CreateUI " .. result )
+  end
 end
 
-local baseOnFirstUpdate = OnFirstUpdate 
+local uif2DD0_baseOnFirstUpdate = OnFirstUpdate 
 function OnFirstUpdate()
-  baseOnFirstUpdate()
-  UipLog( 'OnFirstUpdate hook called' )
-  UIP.OnFirstUpdate()
+  uif2DD0_baseOnFirstUpdate()
+  UifLog( 'OnFirstUpdate hook called' )
+  status, result = pcall(ForkThread,UIF.OnFirstUpdate)
+  if not status then
+    UifLog( "Error in OnFirstUpdate " .. result )
+  end
 end

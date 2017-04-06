@@ -22,21 +22,27 @@ function init()
 	settingDescriptions = {
 		{ name = "Split Screen", settings = {
 			{ key="startSplitScreen", type="bool", default=true, name="Start Split Screen", description="The game starts in split screen mode.\n(restart required)" },
-			{ key="splitRatio", type="number", default=50, name="Split Percentage", description="Split Percentage", min=20, max=80, valMult=1 },
-			{ key="mainMenuPos", type="number", default=2, name="Main menu position", description="Main menu position\n1=left,2=middle,3=right", min=1, max=3, valMult=1  },
+			{ key="splitRatio", type="number", default=50, name="Split Percentage", description="Split Percentage", min=2000, max=8000, valMult=0.01 },
+			{ key="mainMenuPos", type="number", default=1, name="Main menu position", description="Main menu position\n1=left,2=right", min=1, max=2, valMult=1  },
 			{ key="statusControlPos", type="number", default=1, name="Economy panel position", description="Economy panel position\n1=left,2=right", min=1, max=2, valMult=1  },
-			{ key="controlClusterGroupPos", type="number", default=2, name="Control panel positions", description="Control panel positions\n1=left,2=middle,3=right", min=1, max=3, valMult=1  },
+			{ key="controlClusterGroupPos", type="number", default=1, name="Control panel positions", description="Control panel positions\n1=left,2=right", min=1, max=2, valMult=1  },
 			{ key="scorePos", type="number", default=2, name="Score board position", description="Score board position\n1=left,2=right", min=1, max=2, valMult=1  },
 			{ key="avatarsPos", type="number", default=2, name="Avatars panel position", description="Avatars (idle engies pane) panel position\n1=left,2=right", min=1, max=2, valMult=1  },
 			{ key="controlGroupsPos", type="number", default=2, name="Control groups panel position", description="Control groups panel position\n1=left,2=right", min=1, max=2, valMult=1  },
-			{ key="primaryRight", type="bool", default=false, name="Make Right Screen Primary", description="Primary screen zooms in. Secondary screen zooms out.\n(restart required)" },
-			{ key="initialZoomOverride", type="bool", default=false, name="Activate Initial Zoom Override", description="Activate Initial Zoom Override" },
-			{ key="primaryInitialZoomPercentage", type="number", default=95, name="Primary Initial Zoom Percent", description="Initial Zoom Percent of Primary Screen", min=1, max=100, valMult=1  },
-			{ key="secondaryInitialZoomPercentage", type="number", default=20, name="Secondary Initial Zoom Percent", description="Initial Zoom Percent of Secondary Screen", min=1, max=100, valMult=1  },
+			{ key="primaryRight", type="bool", default=false, name="Make right screen primary", description="Primary screen zooms in. Secondary screen zooms out.\n(restart required)" },
+			{ key="initialZoomOverride", type="bool", default=false, name="Activate initial zoom override", description="Activate initial zoom override" },
+			{ key="primaryInitialZoomPercentage", type="number", default=92.00, name="Primary initial zoom percent", description="Initial zoom percent of primary screen", min=1, max=10000, valMult=0.01  },
+			{ key="primaryRelativeToMaxZoom", type="bool", default=false, name="Primary initial zoom percent relative to map size", description="Make Primary initial zoom percent relative to map size" },
+			{ key="secondaryInitialZoomPercentage", type="number", default=20.00, name="Secondary initial zoom percent", description="Initial zoom percent of secondary screen", min=1, max=10000, valMult=0.01  },
+			{ key="secondaryRelativeToMaxZoom", type="bool", default=true, name="Secondary initial zoom percent relative to map size", description="Make Primary initial zoom percent relative to map size" },
+			{ key="leftOffsetTop", type="number", default=0.00, name="Top offset for left screen in percent", description="Top offset for left screen in percent", min=0, max=4000, valMult=0.01  },
+			{ key="leftOffsetBottom", type="number", default=0.00, name="Bottom offset for left screen in percent", description="Bottom offset for left screen in percent", min=0, max=4000, valMult=0.01  },
+			{ key="rightOffsetTop", type="number", default=0.00, name="Top offset for right screen in percent", description="Top offset for right screen in percent", min=0, max=4000, valMult=0.01  },
+			{ key="rightOffsetBottom", type="number", default=0.00, name="Bottom offset for right screen in percent", description="Bottom offset for right screen in percent", min=0, max=4000, valMult=0.01  },
 		}},
 		{ name = "Mod", settings = {
 			{ key="modEnabled", type="bool", default=true, name="Mod Enabled", description="Turns off the entire mod.\n(restart required)" },
-			{ key="logEnabled", type="bool", default=false, name="Mod Log Enabled", description="For diagnostic purposes", min=0, max=10, valMult=0.01  },
+			{ key="logEnabled", type="bool", default=false, name="Mod Log Enabled", description="For diagnostic purposes"  },
 
 		}},	
 		{ name = "Hidden", settings = {
@@ -60,7 +66,7 @@ function init()
 			-- make defaults
 			keys.addValue(sv.key)
 			if savedPrefs.global[sv.key] == nil then
-				UipLog("setting default " .. sv.key)
+				UifLog("setting default " .. sv.key)
 				savedPrefs.global[sv.key] = sv.default
 			end
 			
@@ -77,7 +83,7 @@ function init()
 	local g = from(savedPrefs.global)
 	g.foreach(function(gk, gv)
 		if not keys.contains(gk) then
-			UipLog("removing old key " .. gk)
+			UifLog("removing old key " .. gk)
 			g.removeKey(gk)
 		end
 	end)
