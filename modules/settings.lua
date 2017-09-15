@@ -1,10 +1,11 @@
 -- kate: space-indent off; indent-width 4;
+local modpath = '/mods/ui-festival'
 local Prefs = import('/lua/user/prefs.lua')
 local ThisModsPrefsSectionIdentifier = "UI-Festival Settings"
 local savedPrefs = Prefs.GetFromCurrentProfile(ThisModsPrefsSectionIdentifier)
 local settingDescriptions
 local UIUtil = import('/lua/ui/uiutil.lua')
-local SettingsUi = import('/mods/UI-Party/modules/settingsUi.lua')
+local SettingsUi = import(modpath..'/modules/settingsUi.lua')
 
 function getSettingDescriptions()
 	return settingDescriptions
@@ -12,7 +13,7 @@ end
 
 function init()
 	-- help settings ui quering settings model
-	import('/mods/UI-Party/modules/linq.lua')
+	import(modpath..'/modules/linq.lua')
 
 	-- settings
 	if not savedPrefs then
