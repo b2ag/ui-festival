@@ -4,7 +4,7 @@ UI Festival - A shitty* fork of UI Party Mod for Supreme Commander Forged Allian
 
 
 The basic features are
-- configurable UI Element positions, so that also people with left screen primary setup can enjoy this mod
+- configurable UI Element positions
 - ability to split the screen at configurable ratio and per side configurable top/bottom margins for people with unequal screen heights
 - ability to make most of other split screen unaware mods use right side as primary rendering surface
 - works with coop missions
