@@ -15,4 +15,4 @@ Known bugs
   <br/>workaround (thanks to MrNukealizer): try to edit settings directly in<br/>`%AppData%\Local\Gas Powered Games\Supreme Commander Forged Alliance\Game.prefs` 
 
 Installation
-- copy mod to your Forged Alliance mods folder and make sure it's name `ui-festival` (not `ui-festival-master`)
+- copy mod to your Forged Alliance mods folder and make sure it's named `ui-festival` (not `ui-festival-master`)
